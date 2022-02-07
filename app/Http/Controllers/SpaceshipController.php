@@ -42,8 +42,19 @@ class SpaceshipController extends Controller
      */
     public function show($id)
     {
-        return Spaceship::select('id', 'name', 'class', 'crew', 'image', 'value',
-            'status')->with('armaments:title')->where('id', $id)->first();
+        $spaceship = Spaceship::select('id', 'name', 'class', 'crew', 'image', 'value', 'status')
+            ->with('armaments:title')
+            ->where('id', $id)
+            ->first();
+
+        //Data Manipulation
+        foreach ($spaceship->armaments as $armament) {
+            //Get the quantity from pivot table and append that to armaments
+            $armament->qty = $armament->pivot->qty ?? null;
+            unset($armament->pivot);
+        }
+
+        return $spaceship;
     }
 
 

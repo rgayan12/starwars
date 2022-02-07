@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 
-class SaraTest extends TestCase
+class AppTest extends TestCase
 {
    //use RefreshDatabase;
 
@@ -83,6 +83,16 @@ class SaraTest extends TestCase
             ['qty' =>  rand(1, 50)]
         )->create();
         $this->assertDatabaseCount('spaceships_armaments', 10);
+    }
+
+    /**
+     * Test if spaceship can be deleted
+     */
+    public function test_spaceship_can_be_deleted()
+    {
+        $spaceship = Spaceship::factory()->create();
+        $spaceship->delete();
+        $this->assertDeleted($spaceship);
     }
 
 

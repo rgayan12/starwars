@@ -17,11 +17,15 @@ use App\Http\Controllers\SpaceshipController;
 
 Route::post('login',[LoginController::class,'authenticate']);
 
+Route::group(['middleware' => ['auth:sanctum']],function (){
+    Route::post('/spaceships',[SpaceshipController::class,'store']);
+    Route::patch('/spaceships/{id}',[SpaceshipController::class,'update']);
+    Route::delete('/spaceships/{id}',[SpaceshipController::class,'destroy']);
+});
+
 Route::get('/spaceships',[SpaceshipController::class,'index']);
 Route::get('/spaceships/{id}',[SpaceshipController::class,'show']);
-Route::post('/spaceships',[SpaceshipController::class,'store']);
-Route::patch('/spaceships/{id}',[SpaceshipController::class,'update']);
-Route::delete('/spaceships/{id}',[SpaceshipController::class,'destroy']);
+
 
 
 
